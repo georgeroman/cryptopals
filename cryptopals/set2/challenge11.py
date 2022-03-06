@@ -3,8 +3,8 @@ from typing import Tuple
 from secrets import token_bytes
 
 from cryptopals.set1.challenge7 import aes_ecb_encrypt
-from cryptopals.set2.challenge1 import pcks7_pad
-from cryptopals.set2.challenge2 import aes_cbc_encrypt
+from cryptopals.set2.challenge9 import pcks7_pad
+from cryptopals.set2.challenge10 import aes_cbc_encrypt
 
 
 def encryption_oracle(msg: bytes) -> Tuple[bytearray, int]:

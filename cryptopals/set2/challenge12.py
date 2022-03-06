@@ -1,8 +1,8 @@
 import base64
 import secrets
 
-from cryptopals.set1.challenge7 import aes_ecb_decrypt, aes_ecb_encrypt
-from cryptopals.set2.challenge1 import pcks7_pad
+from cryptopals.set1.challenge7 import aes_ecb_encrypt
+from cryptopals.set2.challenge9 import pcks7_pad
 
 KEY = secrets.token_bytes(16)
 
