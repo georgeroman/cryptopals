@@ -13,12 +13,12 @@ func Challenge2() {
 
 	strByteArr, err := hex.DecodeString(str)
 	if err != nil {
-		fmt.Println("Error decoding hex string")
+		panic(err)
 	}
 
 	keyByteArr, err := hex.DecodeString(key)
 	if err != nil {
-		fmt.Println("Error decoding hex string")
+		panic(err)
 	}
 
 	xorByteArr := make([]byte, len(strByteArr))

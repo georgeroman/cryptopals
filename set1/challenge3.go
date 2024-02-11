@@ -6,22 +6,27 @@ import (
 	"sort"
 )
 
-func Challenge3() {
-	s := "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+type KeyAndScore struct {
+	Original string
+	Decoded  string
+	Key      int
+	Score    int
+}
 
-	byteArr, err := hex.DecodeString(s)
+func GetScores(str string) []KeyAndScore {
+	byteArr, err := hex.DecodeString(str)
 	if err != nil {
-		fmt.Println("Error decoding hex string")
+		panic(err)
 	}
 
-	decodedByteArrs := make([]string, 256)
+	decodeAttempts := make([]string, 256)
 	for k := 0; k < 256; k += 1 {
 		decodedByteArr := make([]byte, len(byteArr))
 		for i, b := range byteArr {
 			decodedByteArr[i] = b ^ uint8(k)
 		}
 
-		decodedByteArrs[k] = string(decodedByteArr)
+		decodeAttempts[k] = string(decodedByteArr)
 	}
 
 	englishCharacterFrequency := map[rune]uint{
@@ -39,13 +44,8 @@ func Challenge3() {
 		'u': 3,
 	}
 
-	type KeyAndScore struct {
-		Key   int
-		Score int
-	}
-
-	scores := make([]KeyAndScore, len(decodedByteArrs))
-	for k, s := range decodedByteArrs {
+	scores := make([]KeyAndScore, len(decodeAttempts))
+	for k, s := range decodeAttempts {
 		characterCounts := make(map[rune]uint)
 		for _, c := range s {
 			characterCounts[c] += 1
@@ -57,8 +57,10 @@ func Challenge3() {
 		}
 
 		scores[k] = KeyAndScore{
-			Key:   k,
-			Score: score,
+			Original: str,
+			Decoded:  decodeAttempts[k],
+			Key:      k,
+			Score:    score,
 		}
 	}
 
@@ -66,7 +68,13 @@ func Challenge3() {
 		return scores[i].Score < scores[j].Score
 	})
 
+	return scores
+}
+
+func Challenge3() {
+	scores := GetScores("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")
+
 	for i := 0; i < 10; i += 1 {
-		fmt.Println(i, string(decodedByteArrs[scores[i].Key]))
+		fmt.Println(i, scores[i])
 	}
 }
